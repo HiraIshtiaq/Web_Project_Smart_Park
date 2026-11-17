@@ -1,0 +1,187 @@
+﻿@model Smart_Park_D2.Models.ViewModels.AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+<div class="container py-4">
+
+    <h4 class="mb-3">Welcome, Admin!</h4>
+
+    <div id="dashboard" class="row g-3 mb-4">
+
+        <div class="col-6 col-md-3">
+            <div class="card p-3 text-center">
+                <p class="text-muted mb-1">Total Bookings</p>
+                <h3>@Model.TotalBookings</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card p-3 text-center">
+                <p class="text-muted mb-1">Available Slots</p>
+                <h3>@Model.AvailableSlots</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card p-3 text-center">
+                <p class="text-muted mb-1">Occupied Slots</p>
+                <h3>@Model.OccupiedSlots</h3>
+            </div>
+        </div>
+
+        <div class="col-6 col-md-3">
+            <div class="card p-3 text-center">
+                <p class="text-muted mb-1">Total Revenue</p>
+                <h3>Rs. @Model.TotalRevenue</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 id="parking">Parking Management</h5>
+        <button class="btn btn-primary btn-sm">+ Add Location</button>
+    </div>
+
+    <div class="card mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Location</th>
+                        <th>Address</th>
+                        <th>Total Slots</th>
+                        <th>Available Slots</th>
+                        <th>Price / Hour</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.ParkingLocations != null && Model.ParkingLocations.Any())
+                    {
+                        @foreach (var location in Model.ParkingLocations)
+                        {
+                            <tr>
+                                <td>@location.Name</td>
+                                <td>@location.Address</td>
+                                <td>@location.TotalSlots</td>
+                                <td>@(location.TotalSlots - location.OccupiedSlots)</td>
+                                <td>Rs. @location.RatePerHour</td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center">
+                                No parking locations found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <h5 id="users" class="mb-3">Registered Users</h5>
+
+    <div class="card mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Users != null && Model.Users.Any())
+                    {
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>@user.FullName</td>
+                                <td>@user.Email</td>
+                                <td>@user.PhoneNumber</td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="3" class="text-center">
+                                No registered users found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+    <h5 id="bookings" class="mb-3">All Bookings</h5>
+
+    <div class="card mb-4">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Customer</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Slot</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (Model.Bookings != null && Model.Bookings.Any())
+                    {
+                        @foreach (var booking in Model.Bookings)
+                        {
+                            <tr>
+                                <td>@booking.Id</td>
+                                <td>@booking.CustomerName</td>
+                                <td>@booking.CustomerEmail</td>
+                                <td>@booking.ParkingLocationName</td>
+                                <td>@booking.SlotNumber</td>
+                                <td>Rs. @booking.Amount</td>
+                                <td>
+                                    @if (booking.Status == "Confirmed")
+                                    {
+                                        <span class="badge bg-success">@booking.Status</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-danger">@booking.Status</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="7" class="text-center">
+                                No bookings found.
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>

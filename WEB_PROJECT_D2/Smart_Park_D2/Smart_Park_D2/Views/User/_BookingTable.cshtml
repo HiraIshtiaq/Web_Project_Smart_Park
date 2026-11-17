@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Smart_Park_D2.Models.Booking>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Location</th>
+                    <th>Slot</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var booking in Model)
+                    {
+                        <tr>
+                            <td>R-@booking.Id</td>
+                            <td>@booking.ParkingLocationName</td>
+                            <td>@booking.SlotNumber</td>
+                            <td>@booking.BookingDate.ToString("dd MMM")</td>
+                            <td>Rs. @booking.Amount</td>
+                            <td>@booking.Status</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            You have no bookings yet.
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
